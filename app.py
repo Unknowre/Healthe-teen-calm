@@ -3,35 +3,43 @@ import hmac
 import hashlib
 import base64
 import random
+from contextlib import asynccontextmanager
 from urllib.parse import parse_qs
-
+ 
 from fastapi import FastAPI, Request, HTTPException
 from dotenv import load_dotenv
-
+ 
 from db import (
     init_db, upsert_user, set_mode, get_mode,
     add_diary, add_todo, list_todo, mark_todo_done,
     get_diary_stats, get_sleep_setting, set_sleep, clear_done_todos,
     get_journal_idx, set_journal_idx
 )
-
+ 
 from flex import (
     diary_prompt_flex, todo_menu_flex, todo_list_flex,
     sleep_menu_flex, journal_poster_flex, media_poster_flex, media_carousel_flex,
     tree_progress_flex
 )
-
+ 
 from ai import heal_reply
 from line_api import line_reply
 from scheduler import start_scheduler, sync_user
-
+ 
 load_dotenv()
 LINE_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
-
-init_db()
-start_scheduler() 
-
-app = FastAPI()
+ 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    start_scheduler()
+    yield
+    from scheduler import scheduler as _sched
+    if _sched.running:
+        _sched.shutdown(wait=False)
+ 
+ 
+app = FastAPI(lifespan=lifespan) 
 
 JOURNALS = [
     ("ความเครียดของนักศึกษา: รู้ทัน-จัดการได้", [
