@@ -28,6 +28,9 @@ from scheduler import start_scheduler, sync_user
 load_dotenv()
 LINE_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
 
+init_db()
+start_scheduler() 
+
 app = FastAPI()
 
 JOURNALS = [
