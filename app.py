@@ -648,7 +648,7 @@ async def webhook(req: Request):
                                         "action": {
                                             "type": "uri",
                                             "label": "ทำแบบประเมินเลย 💚",
-                                            "uri": "https://www.thaimentalhealth.com/%E0%B8%AA%E0%B9%81%E0%B8%81%E0%B8%99%E0%B9%83%E0%B8%88/%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%A1%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%94.html"
+                                            "uri": "https://healthhubgoth.com/tools/stress?utm_source=chatgpt.com"
                                         }
                                     }
                                 ]
@@ -802,7 +802,7 @@ async def webhook(req: Request):
                 else:
                     s = get_sleep_setting(user_id)
                     set_sleep(user_id, hhmm, s["waketime"], 1)
-                    sync_user(user_id)
+                    sync_user(user_id) #
                     set_mode(user_id, None)
                     s2 = get_sleep_setting(user_id)
                     line_reply(reply_token, [{"type": "text", "text": f"ตั้งเวลาเข้านอนเป็น {hhmm} แล้ว ✅ (เปิดแจ้งเตือนให้แล้ว)"}, sleep_menu_flex(s2["bedtime"], s2["waketime"], s2["enabled"])])
@@ -814,7 +814,7 @@ async def webhook(req: Request):
                 else:
                     s = get_sleep_setting(user_id)
                     set_sleep(user_id, s["bedtime"], hhmm, 1)
-                    sync_user(user_id)
+                    sync_user(user_id) #
                     set_mode(user_id, None)
                     s2 = get_sleep_setting(user_id)
                     line_reply(reply_token, [{"type": "text", "text": f"ตั้งเวลาตื่นเป็น {hhmm} แล้ว ✅ (เปิดแจ้งเตือนให้แล้ว)"}, sleep_menu_flex(s2["bedtime"], s2["waketime"], s2["enabled"])])

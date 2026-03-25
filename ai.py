@@ -3,20 +3,12 @@ import unicodedata
 
 last_reply = None
 
-
-# -----------------------------
-# 🔤 Normalize ภาษาไทย + ตัดวรรณยุกต์
-# -----------------------------
 def normalize_text(text: str) -> str:
     text = text.lower()
     text = unicodedata.normalize("NFKD", text)
     text = "".join(c for c in text if not unicodedata.combining(c))
     return text
 
-
-# -----------------------------
-# 🔎 KEYWORDS (เพิ่มเยอะมาก)
-# -----------------------------
 KEYWORDS = {
 
     "greet": [
@@ -109,10 +101,6 @@ KEYWORDS = {
 ]
 }
 
-
-# -----------------------------
-# 💬 REPLIES (เพิ่มประโยคเยอะขึ้น)
-# -----------------------------
 REPLIES = {
 
     "greet": [
@@ -197,9 +185,6 @@ REPLIES = {
 }
 
 
-# -----------------------------
-# 🚨 High Risk
-# -----------------------------
 def high_risk_reply():
     return (
         "เราห่วงเธอมากนะ 🤍\n"
@@ -209,9 +194,6 @@ def high_risk_reply():
     )
 
 
-# -----------------------------
-# 🔎 Detect
-# -----------------------------
 def detect_category(user_text: str):
     text = normalize_text(user_text)
 
@@ -223,9 +205,6 @@ def detect_category(user_text: str):
     return None
 
 
-# -----------------------------
-# 💬 Reply Generator
-# -----------------------------
 def get_reply(category):
     global last_reply
     replies = REPLIES.get(category, ["เราอยู่ตรงนี้นะ 🤍"])
@@ -239,9 +218,6 @@ def get_reply(category):
     return reply
 
 
-# -----------------------------
-# 🧠 MAIN
-# -----------------------------
 def heal_reply(user_text: str):
 
     if not user_text.strip():
