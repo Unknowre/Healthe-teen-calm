@@ -604,7 +604,60 @@ async def webhook(req: Request):
             continue
         upsert_user(user_id)
 
-        if ev["type"] == "postback":
+        if ev["type"] == "follow":
+            reply_token = ev.get("replyToken")
+            if reply_token:
+                line_reply(reply_token, [
+                    {
+                        "type": "text",
+                        "text": (
+                            "สวัสดีนะ 🤍 ยินดีต้อนรับสู่ Healthe Teen Calm\n\n"
+                            "เราอยู่ตรงนี้เพื่อช่วยดูแลใจเธอนะ 🌱\n\n"
+                            "ก่อนอื่นเลย อยากให้ลองทำแบบประเมินความเครียดดูก่อนนะ\n"
+                            "จะได้รู้ว่าตอนนี้ใจเราอยู่ตรงไหน 💙"
+                        )
+                    },
+                    {
+                        "type": "flex",
+                        "altText": "แบบประเมินความเครียด",
+                        "contents": {
+                            "type": "bubble",
+                            "body": {
+                                "type": "box",
+                                "layout": "vertical",
+                                "spacing": "md",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "🧠 แบบประเมินความเครียด",
+                                        "weight": "bold",
+                                        "size": "lg",
+                                        "wrap": True
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "ใช้เวลาแค่ไม่กี่นาที ลองทำดูได้เลยนะ 🌿",
+                                        "size": "sm",
+                                        "color": "#555555",
+                                        "wrap": True
+                                    },
+                                    {
+                                        "type": "button",
+                                        "style": "primary",
+                                        "color": "#A8D5BA",
+                                        "action": {
+                                            "type": "uri",
+                                            "label": "ทำแบบประเมินเลย 💚",
+                                            "uri": "https://www.thaimentalhealth.com/%E0%B8%AA%E0%B9%81%E0%B8%81%E0%B8%99%E0%B9%83%E0%B8%88/%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%A1%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%94.html"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ])
+
+        elif ev["type"] == "postback":
             reply_token = ev["replyToken"]
             post_data = ev["postback"]["data"]
             pb = parse_postback_data(post_data)
